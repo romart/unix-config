@@ -1,0 +1,18 @@
+[user]
+	name = Roman Artemev
+	email = roman.artemev.92@gmail.com
+	signingkey = D196BEDBAFC71FD2A45D0776C50726ED51735648
+[core]
+	autocrlf = input
+	editor = vim
+[pull]
+	rebase = false
+[alias]
+	unstage = restore --staged
+	ss = status -s
+	ogl = log --oneline --graph
+	l2 = log --pretty=format:'%Cred%h%Creset - %Cblue%an : %ad%Creset | %Cgreen%s' --graph
+[gpg]
+	program = gpg
+[merge]
+	tool = kdiff3
