@@ -2,6 +2,7 @@ let g:netrw_liststyle = 3
 syntax on
 filetype plugin indent on
 
+set clipboard=unnamedplus
 
 set number
 set relativenumber
