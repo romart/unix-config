@@ -113,6 +113,8 @@ source $ZSH/oh-my-zsh.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+[ -f $HOME/.zshrc.local ] && source $HOME/.zshrc.local
+
 source $HOME/.openvpn3/vpn_api.sh
 
 export ANDROID_HOME=$HOME/Android/Sdk
