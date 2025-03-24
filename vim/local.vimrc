@@ -107,6 +107,7 @@ nnoremap <Leader>dd :YcmCompleter GetDoc<CR>       " Show documentation
 noremap <F12> :TagbarToggle<CR> " Show list of declarations 
 
 nnoremap <Leader>B :Buffers<CR>
+nnoremap <Leader>F :Files<CR>
 
 nmap <F5> :call vimspector#Launch()<CR>
 nmap <Leader>C :call vimspector#Continue()<CR>

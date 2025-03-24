@@ -104,6 +104,7 @@ nnoremap <Leader>dd :YcmCompleter GetDoc<CR>       " Show documentation
 noremap <F12> :TagbarToggle<CR> " Show list of declarations 
 
 nnoremap <Leader>B :Buffers<CR>
+nnoremap <Leader>F :Files<CR>
 
 " let g:ycm_goto_buffer_command = 'current'
 
