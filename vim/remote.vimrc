@@ -45,6 +45,7 @@ call plug#begin('~/.vim/plugged')
 " Add plugins here
 Plug 'preservim/nerdtree'         " File explorer
 Plug 'junegunn/fzf', {'do': './install --all'} " Fuzzy finder
+Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'   " Status bar
 Plug 'tpope/vim-commentary'      " Commenting utility
 
@@ -102,6 +103,7 @@ nnoremap <Leader>dd :YcmCompleter GetDoc<CR>       " Show documentation
 
 noremap <F12> :TagbarToggle<CR> " Show list of declarations 
 
+nnoremap <Leader>B :Buffers<CR>
 
 " let g:ycm_goto_buffer_command = 'current'
 
