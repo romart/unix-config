@@ -108,6 +108,8 @@ noremap <F12> :TagbarToggle<CR> " Show list of declarations
 
 nnoremap <Leader>B :Buffers<CR>
 nnoremap <Leader>F :Files<CR>
+nnoremap <Leader>H :History:<CR>
+nnoremap <Leader>M :Marks<CR>
 
 nmap <F5> :call vimspector#Launch()<CR>
 nmap <Leader>C :call vimspector#Continue()<CR>

@@ -105,6 +105,8 @@ noremap <F12> :TagbarToggle<CR> " Show list of declarations
 
 nnoremap <Leader>B :Buffers<CR>
 nnoremap <Leader>F :Files<CR>
+nnoremap <Leader>H :History:<CR>
+nnoremap <Leader>M :Marks<CR>
 
 " let g:ycm_goto_buffer_command = 'current'
 
