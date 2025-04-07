@@ -1,10 +1,9 @@
-
 -- lazy.nvim config
 return {
   -- color schemes
   {
     "folke/tokyonight.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
@@ -110,7 +109,12 @@ return {
   },
   "hrsh7th/nvim-cmp",
   "stevearc/conform.nvim",
-  "j-hui/fidget.nvim",
+  {
+    "j-hui/fidget.nvim",
+    opts = {
+      -- options
+    },
+  },
   {
     "folke/flash.nvim",
     event = "VeryLazy"
@@ -127,16 +131,16 @@ return {
       custom_surroundings = nil,
       highlight_duration = 500,
       mappings = {
-        add = "sa", -- Add surrounding in Normal and Visual modes
-        delete = "sd", -- Delete surrounding
-        find = "sf", -- Find surrounding (to the right)
-        find_left = "sF", -- Find surrounding (to the left)
-        highlight = "sh", -- Highlight surrounding
-        replace = "sr", -- Replace surrounding
+        add = "sa",            -- Add surrounding in Normal and Visual modes
+        delete = "sd",         -- Delete surrounding
+        find = "sf",           -- Find surrounding (to the right)
+        find_left = "sF",      -- Find surrounding (to the left)
+        highlight = "sh",      -- Highlight surrounding
+        replace = "sr",        -- Replace surrounding
         update_n_lines = "sn", -- Update `n_lines`
 
-        suffix_last = "l", -- Suffix to search with "prev" method
-        suffix_next = "n", -- Suffix to search with "next" method
+        suffix_last = "l",     -- Suffix to search with "prev" method
+        suffix_next = "n",     -- Suffix to search with "next" method
       },
       n_lines = 20,
       respect_selection_type = false,
@@ -164,11 +168,11 @@ return {
     build = ":TSUpdate"
   },
   "nvim-telescope/telescope-ui-select.nvim",
-  { 
+  {
     "nvim-lualine/lualine.nvim",
     dependencies = { "echasnovski/mini.icons" },
   },
-  { 'echasnovski/mini.nvim', version = '*' },
+  { 'echasnovski/mini.nvim',       version = '*' },
   { "nvim-tree/nvim-web-devicons", opts = {} },
   {
     "folke/which-key.nvim",
@@ -176,26 +180,25 @@ return {
   },
   { 'nvim-tree/nvim-tree.lua' },
   "mfussenegger/nvim-dap",
-  { 
+  {
     "rcarriga/nvim-dap-ui",
-     dependencies = {
+    dependencies = {
       "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio"
     }
   },
   -- { 'puremourning/vimspector' },
   {
-  "mikavilpas/yazi.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- if you want to open yazi instead of netrw, see below for more info
-    open_for_directories = false,
-    keymaps = {
-      show_help = "<f1>",
-    },
-  }
-},
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    }
+  },
 
-"folke/zen-mode.nvim",
+  "folke/zen-mode.nvim",
 }
-

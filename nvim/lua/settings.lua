@@ -1,5 +1,5 @@
 -- general settings
-utils=require('utils')
+local utils = require('utils')
 
 
 vim.opt.number = true
@@ -9,18 +9,16 @@ vim.opt.cmdheight = 0
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 5
 vim.opt.signcolumn = 'no'
-vim.opt.termguicolors = true
-vim.opt.termguicolors = true
 vim.opt.ignorecase = true
 vim.opt.cursorline = true
 vim.opt.clipboard = 'unnamedplus'
 
 vim.opt.guicursor = "n-v-c:block-blinkon1-CursorInsert,i:block-CursorInsert"
 
-vim.opt.shell=os.getenv('SHELL')
-vim.opt.shellcmdflag='-c'
-vim.opt.shellquote=''
-vim.opt.shellxquote=''
+vim.opt.shell = os.getenv('SHELL')
+vim.opt.shellcmdflag = '-c'
+vim.opt.shellquote = ''
+vim.opt.shellxquote = ''
 
 -- stop right-shift when errors/warning appear
 vim.o.completeopt = "menuone,noselect,preview"
@@ -35,11 +33,8 @@ vim.cmd("autocmd FileType sql setlocal nosmartindent")
 vim.cmd("autocmd FileType sql setlocal nocindent")
 
 vim.g.python3_host_prog = utils.get_python_path()
+vim.g.disable_autoformat = true
 
 vim.opt.fillchars = {
   vert = " ", horiz = " ", horizup = " ", horizdown = " ", vertleft = " ", vertright = " ", verthoriz = " "
 }
-
-
-
-

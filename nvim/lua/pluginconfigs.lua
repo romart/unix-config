@@ -272,7 +272,6 @@ treesitter.setup({
   },
 })
 
-vim.g.disable_autoformat = false
 
 local conform = require("conform")
 
@@ -310,6 +309,8 @@ conform.setup({
     }
   end,
 })
+
+require('fidget').setup({})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
@@ -395,7 +396,7 @@ require("lualine").setup({
     lualine_c = { "filename" },
     lualine_x = {
       function()
-        encoding = vim.o.fileencoding
+        local encoding = vim.o.fileencoding
         if encoding == "" then
           return vim.bo.fileformat .. " :: " .. vim.bo.filetype
         else
@@ -502,20 +503,20 @@ dap.configurations.cpp = {
     type = "cppdbg",
     request = "launch",
     program = function()
-      gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
-      jsonconf = utils.load_config_from_json(gdbconf)
+      local gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
+      local jsonconf = utils.load_config_from_json(gdbconf)
       return jsonconf.program
     end,
     cwd = '${workspaceFolder}',
     args = function()
-      gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
-      jsonconf = utils.load_config_from_json(gdbconf)
+      local gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
+      local jsonconf = utils.load_config_from_json(gdbconf)
       return jsonconf.args
     end,
 
     environment = function()
-      gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
-      jsonconf = utils.load_config_from_json(gdbconf)
+      local gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
+      local jsonconf = utils.load_config_from_json(gdbconf)
       return jsonconf.environment
     end,
 
