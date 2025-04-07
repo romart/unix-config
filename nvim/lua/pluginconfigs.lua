@@ -139,6 +139,11 @@ lspconfig.marksman.setup({
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 local luasnip = require("luasnip")
+
+luasnip.add_snippets("c", require("snippets.cpp"))
+luasnip.add_snippets("cpp", require("snippets.cpp"))
+luasnip.add_snippets("tex", require("snippets.tex"))
+
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 require("luasnip.loaders.from_vscode").lazy_load()

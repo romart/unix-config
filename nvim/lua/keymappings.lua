@@ -87,13 +87,31 @@ end
 
 wk.add(
   {
-    { "<F5>", dap.continue, desc = "Continue Execution", mode = "n" },
-    { "<F9>", dap.toggle_breakpoint, desc = "Toggle Breakpoint", mode = "n" },
-    { "<F8>", dap.step_over, desc = "Step Over", mode = "n" },
-    { "<F10>", dap.step_into, desc = "Step Into", mode = "n" },
-    { "<F11>", dap.step_out, desc = "Step Out", mode = "n" },
-    { "<F12>", terminate_debug, desc = "Terminate", mode = "n" },
-    { "<leader>P", dap.pause, desc = "Pause", mode = "n" },
+    { "<F5>",      dap.continue,          desc = "Continue Execution", mode = "n" },
+    { "<F9>",      dap.toggle_breakpoint, desc = "Toggle Breakpoint",  mode = "n" },
+    { "<F8>",      dap.step_over,         desc = "Step Over",          mode = "n" },
+    { "<F10>",     dap.step_into,         desc = "Step Into",          mode = "n" },
+    { "<F11>",     dap.step_out,          desc = "Step Out",           mode = "n" },
+    { "<F12>",     terminate_debug,       desc = "Terminate",          mode = "n" },
+    { "<leader>P", dap.pause,             desc = "Pause",              mode = "n" },
   }
 )
 
+local ls = require("luasnip")
+
+wk.add({
+  { "<C-K>", ls.expand,                  mode = "i",          silent = true, desc = "Expand Snippet" },
+  { "<C-L>", function() ls.jump(1) end,  mode = { "i", "s" }, silent = true, desc = "Jump Forward" },
+  { "<C-J>", function() ls.jump(-1) end, mode = { "i", "s" }, silent = true, desc = "Jump Backward" },
+  {
+    "<C-E>",
+    function()
+      if ls.choice_active() then
+        ls.change_choice(1)
+      end
+    end,
+    mode = { "i", "s" },
+    silent = true,
+    desc = "Change active choice"
+  },
+})
