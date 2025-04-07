@@ -110,6 +110,7 @@ lspconfig.clangd.setup({
     "--header-insertion-decorators",
     "--function-arg-placeholders",
     "--completion-style=detailed",
+    "--limit-results=0"
   },
   filetypes = { "c", "cpp", "objc", "objcpp" },
   root_dir = lspconfig.util.root_pattern("src"),
