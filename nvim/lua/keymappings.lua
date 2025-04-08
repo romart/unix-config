@@ -9,7 +9,7 @@ wk.add({
 
 wk.add(
   {
-    { "<leader>",   group = "Yazi" },
+    { "<leader>y",   group = "Yazi" },
     { "<leader>yn", "<cmd>Yazi<cr>",        desc = "Open yazi at the current file" },
     { "<leader>yt", "<cmd>Yazi toggle<CR>", desc = "Resume the last yazi session" },
     { "<leader>yw", "<cmd>Yazi cwd<cr>",    desc = "Open the file manager in nvim's working directory" },
@@ -46,7 +46,7 @@ local flash = require("flash")
 
 wk.add(
   {
-    { "<leader>",   group = "Flash" },
+    { "<leader>l",   group = "Flash" },
     { "<leader>lr", flash.remote,            desc = "Remote Flash",            mode = "o" },
     { "<leader>lS", flash.toggle,            desc = "Treesitter Flash Search", mode = "c" },
     { "<leader>lR", flash.treesitter_search, desc = "Treesitter Search",       mode = { "o", "x" } },
@@ -63,6 +63,7 @@ wk.add(
     { "<F2>",      utils.toggle_line_numbers,                  desc = "Switch relative-absolute line numbers" },
     { "<C-n>",     ":NvimTreeToggle<CR>",                      desc = "Tree Toggle",                          mode = { "i", "n" } },
     { "<C-s>",     ":w<CR>",                                   desc = "Save current buffer",                  mode = "n" },
+    { "<C-q>",     ":bd<CR>",                                  desc = "Close current buffer",                 mode = "n" },
     { "<leader>?", function() wk.show({ global = false }) end, desc = "Buffer Local Keymaps (which-key)",     mode = "n" },
     { "<A-f>",     utils.toggle_auto_format,                   desc = "Toggle Auto-format",                   mode = "n" }
   }
