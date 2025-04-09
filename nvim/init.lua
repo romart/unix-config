@@ -32,11 +32,11 @@ require("lazy").setup("plugins", {
 })
 
 
--- Apply general vim settings
-require('settings')
 -- Configure plugins
 require('pluginconfigs')
 -- Key mappings
 require('keymappings')
+-- Apply general vim settings
+require('settings')
 
 vim.cmd("colorscheme tokyonight")

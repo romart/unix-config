@@ -201,4 +201,7 @@ return {
   },
 
   "folke/zen-mode.nvim",
+
+  { 'akinsho/toggleterm.nvim', opts = { } }
+
 }

@@ -449,6 +449,9 @@ require('nvim-tree').setup({
   }
 })
 
+require("toggleterm").setup{
+
+}
 -- require("vimspector").setup()
 
 
