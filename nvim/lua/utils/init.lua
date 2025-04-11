@@ -78,4 +78,14 @@ function utils.toggle_auto_format()
   end
 end
 
+
+function utils.find(tbl, predicate)
+    for _, v in ipairs(tbl) do
+        if predicate(v) then
+            return v
+        end
+    end
+    return nil  -- Return nil if no element matches the predicate
+end
+
 return utils
