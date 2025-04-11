@@ -449,10 +449,40 @@ require('nvim-tree').setup({
   }
 })
 
-require("toggleterm").setup{
 
+require("toggleterm").setup {
+  direction = "float",
+  on_create = function(term)
+    local opts = { buffer = term.bufnr }
+    vim.keymap.set('t', '<C-t>', function () term:toggle() end, opts)
+    vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+    vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+    vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+    vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
+    vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  end
 }
--- require("vimspector").setup()
+
+local toggleterm_manager = require("toggleterm-manager")
+local actions = toggleterm_manager.actions
+
+toggleterm_manager.setup {
+
+  titles = {
+    prompt = "Pick Terminal",
+    results = "Terminals"
+  },
+
+  mappings = {
+    i = {
+      ["<CR>"] = { action = actions.toggle_term, exit_on_action = true },
+      ["<C-i>"] = { action = actions.create_and_name_term, exit_on_action = false },
+      ["<C-r>"] = { action = actions.rename_term, exit_on_action = false },
+      ["<C-d>"] = { action = actions.delete_term, exit_on_action = false },
+    },
+  },
+}
+
 
 
 local dap, dapui = require("dap"), require("dapui")

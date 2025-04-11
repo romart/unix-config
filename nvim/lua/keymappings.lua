@@ -28,17 +28,22 @@ end
 wk.add(
   {
     { "<leader>",   group = "Telescope" },
-    { "<leader>B",  ":Telescope buffers<cr>",         desc = "Open Buffers" },
-    { "<leader>H",  ":Telescope command_history<cr>", desc = "Command History" },
-    { "<leader>M",  ":Telescope marks<cr>",           desc = "Marks" },
-    { "<leader>R",  ":Telescope registers<cr>",       desc = "Registers" },
-    { "<leader>ds", builtin.lsp_document_symbols,     desc = "Current Buffer Symbols" },
-    { "<leader>fb", ":Telescope buffers<cr>",         desc = "File Browser" },
-    { "<leader>fd", builtin.diagnostics,              desc = "Diagnostics" },
-    { "<leader>fg", builtin.live_grep,                desc = "Live Grep" },
-    { "<leader>fv", builtin.help_tags,                desc = "Help Tags" },
-    { "<leader>jk", find_files,                       desc = "Find Files" },
-    { "<leader>ws", builtin.lsp_workspace_symbols,    desc = "Workspace Symbols" },
+    { "<leader>B",  builtin.buffers,                     desc = "Open Buffers" },
+    { "<leader>H",  builtin.command_history,             desc = "Command History" },
+    { "<leader>M",  builtin.marks,                       desc = "Marks" },
+    { "<leader>R",  builtin.registers,                   desc = "Registers" },
+    { "<leader>J",  builtin.jumplist,                    desc = "Jump List" },
+    { "<leader>S",  builtin.search_history,              desc = "Search History" },
+    { "<leader>F",  find_files,                          desc = "Find Files" },
+    { "<leader>T",  ":Telescope toggleterm_manager<CR>", desc = "List Open Terminals" },
+    { "<leader>ds", builtin.lsp_document_symbols,        desc = "Current Buffer Symbols" },
+    { "<leader>gs", builtin.grep_string,                 desc = "Grep string (udnder cursor)" },
+    { "<leader>ww", builtin.treesitter,                  desc = "Function names, variables" },
+    { "<leader>fr", builtin.lsp_references,              desc = "Symbol (under cursor) references" },
+    { "<leader>fd", builtin.diagnostics,                 desc = "Diagnostics" },
+    { "<leader>fg", builtin.live_grep,                   desc = "Live Grep" },
+    { "<leader>fv", builtin.help_tags,                   desc = "Help Tags" },
+    { "<leader>ws", builtin.lsp_workspace_symbols,       desc = "Workspace Symbols" },
   }
 )
 
@@ -55,85 +60,21 @@ wk.add(
   }
 )
 
-
-function _G.set_terminal_keymaps()
-  local opts = { buffer = 0 }
-  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-  vim.keymap.set('t', '<C-t>', [[<Cmd>ToggleTerm<CR>]], opts)
-end
-
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
 local function start_new_term()
   local name = vim.fn.input("Enter Terminal name: ")
   vim.cmd("TermNew direction=float name=\"" .. name .. "\"")
 end
 
 
-local toggleterm = require("toggleterm")
-local terms = require("toggleterm.terminal")
-
-local function get_selected_lines(selection_type)
-  local tt_utils = require("toggleterm.utils")
-  local api = vim.api
-  local fn = vim.fn
-  local lines = {}
-  -- Beginning of the selection: line number, column number
-  local start_line, start_col
-  if selection_type == "single_line" then
-    start_line, start_col = unpack(api.nvim_win_get_cursor(0))
-    start_col = start_col + 1
-    table.insert(lines, fn.getline(start_line))
-  else
-    local res = tt_utils.get_line_selection("visual")
-    start_line, start_col = unpack(res.start_pos)
-    if selection_type == "visual_lines" then
-      lines = res.selected_lines
-    elseif selection_type == "visual_selection" then
-      lines = tt_utils.get_visual_selection(res, true)
-    end
-  end
-
-  if not lines or not next(lines) then return nil end
-  return lines
-end
-
-local function send_selection_to_term(mode)
-  local terminals = terms.get_all(true)
-  local trim_spaces = true
-  if #terminals <= 1 then
-    return toggleterm.send_lines_to_terminal(mode, trim_spaces, { args = #terminals })
-  end
-  local lines = get_selected_lines(mode)
-  if lines == nil then return end
-  vim.ui.select(terminals, {
-    prompt = "Please select a terminal to copy text: ",
-    format_item = function(term) return term.id .. ": " .. term:_display_name() end,
-  }, function(_, idx)
-    local term = terminals[idx]
-    if not term then return end
-    -- feed lines into terminal
-    for _, line in ipairs(lines) do
-      local l = line:gsub("^%s+", ""):gsub("%s+$", "") or line
-      toggleterm.exec(l, idx)
-    end
-    if not term:is_open() then
-      term:open()
-    end
-  end)
-end
+local telutil = require("telescopeExts")
+local themes = require("telescope.themes")
 
 wk.add({
-  { "<C-t>",      ":ToggleTerm direction=float<CR>",                         desc = "Toggle default floating terminal",              mode = { "n" } },
-  { "<A-t>",      start_new_term,                                            desc = "Create New terminal",                           mode = "n" },
-  { "<leader>fs", ":TermSelect<CR>",                                         desc = "List Open Terminals",                           mode = "n" },
-  { "<space>s",   function() send_selection_to_term("single_line") end,      desc = "Send current line into selected terminal",      mode = "n" },
-  { "<space>s",   function() send_selection_to_term("visual_lines") end,     desc = "Send selected lines into selected terminal",    mode = "x" },
-  { "<space>s",   function() send_selection_to_term("visual_selection") end, desc = "Send current selection into selected terminal", mode = "v" },
+  { "<C-t>",    ":ToggleTerm direction=float<CR>",                                                       desc = "Toggle default floating terminal",              mode = { "n" } },
+  { "<A-t>",    start_new_term,                                                                          desc = "Create New terminal",                           mode = "n" },
+  { "<space>c", function() telutil.send_selection_to_term("single_line", themes.get_cursor {}) end,      desc = "Send current line into selected terminal",      mode = "n" },
+  { "<space>c", function() telutil.send_selection_to_term("visual_lines", themes.get_cursor {}) end,     desc = "Send selected lines into selected terminal",    mode = "x" },
+  { "<space>c", function() telutil.send_selection_to_term("visual_selection", themes.get_cursor {}) end, desc = "Send current selection into selected terminal", mode = "v" },
 })
 
 wk.add(
