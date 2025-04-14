@@ -33,3 +33,10 @@ https://github.com/neovim/neovim/blob/master/INSTALL.md#install-from-source
 ln -s $REPO/nvim $HOME/.config/nvim
 ```
 
+### Check you config
+
+Once setup is done and plugins are installed run in nvim `command mode`
+```shell
+:checkhealth
+```
+to make sure there is no serious issues
