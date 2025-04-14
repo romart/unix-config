@@ -1,5 +1,3 @@
-local utils = require("utils")
-
 -- lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -24,6 +22,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- disable netrw at the very start of your init.lua
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- lazy.nvim setup
 require("lazy").setup("plugins", {
   defaults = {
@@ -31,12 +34,9 @@ require("lazy").setup("plugins", {
   },
 })
 
-
--- Configure plugins
-require('pluginconfigs')
 -- Key mappings
 require('keymappings')
 -- Apply general vim settings
 require('settings')
 
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme tokyonight-night")

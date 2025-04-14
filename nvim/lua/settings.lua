@@ -1,7 +1,6 @@
 -- general settings
 local utils = require('utils')
 
-
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.ts = 2
