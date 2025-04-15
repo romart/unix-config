@@ -21,7 +21,7 @@ return {
         vim.cmd("TermNew direction=float name=\"" .. name .. "\"")
       end
       local wk = require("which-key")
-      local telutil = require("telescopeExts")
+      local telutil = require("utils.telescope")
       local themes = require("telescope.themes")
 
       wk.add({
