@@ -8,23 +8,43 @@ return {
       options = {
         icons_enabled = true,
         theme = "auto",
-        component_separators = "",
+        component_separators = "::",
         section_separators = "",
       },
 
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch" },
-        lualine_c = { "filename" },
-        lualine_x = {
+        lualine_c = {
           function()
-            local encoding = vim.o.fileencoding
-            if encoding == "" then
-              return vim.bo.fileformat .. " :: " .. vim.bo.filetype
-            else
-              return encoding .. " :: " .. vim.bo.fileformat .. " :: " .. vim.bo.filetype
-            end
-          end,
+            local bufnr = vim.api.nvim_get_current_buf()
+            local fullpath = vim.api.nvim_buf_get_name(bufnr)
+            local filename = vim.fn.fnamemodify(fullpath, ":t")
+            return " " .. bufnr .. " " .. filename
+          end
+        },
+        lualine_x = {
+          {
+            'encoding',
+            -- Show '[BOM]' when the file has a byte-order mark
+            -- show_bomb = true,
+          },
+          {
+            'fileformat',
+            symbols = {
+              unix = '', -- e712
+              dos = '', -- e70f
+              mac = '', -- e711
+            }
+          },
+          {
+            'filetype',
+            colored = true,            -- Displays filetype icon in color if set to true
+            icon_only = false,         -- Display only an icon for filetype
+            icon = { align = 'left' }, -- Display filetype icon on the right hand side
+            -- icon =    {'X', align='right'}
+            -- Icon string ^ in table is ignored in filetype component
+          }
         },
         lualine_y = { "progress" },
         lualine_z = { "location" },
