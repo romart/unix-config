@@ -102,32 +102,57 @@ return {
         },
       })
 
-      lspconfig.clangd.setup({
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--pch-storage=memory",
-          "--all-scopes-completion",
-          "--pretty",
-          "--header-insertion=never",
-          "-j=2",
-          "--inlay-hints",
-          "--header-insertion-decorators",
-          "--function-arg-placeholders",
-          "--completion-style=detailed",
-          "--limit-results=0"
-        },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = lspconfig.util.root_pattern("src"),
-        init_option = {
-          fallbackFlags = { "-std=c++2a" },
-          clangdFileStatus = true,
-          compileCommands = "./compile_commands.json"
-        },
-        capabilities = capabilities,
-        single_file_support = true,
-      })
+      local configure_clangd = function(cmd_json_file)
+        print("Configure clangd with " .. cmd_json_file)
+        lspconfig.clangd.setup {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--pch-storage=memory",
+            "--all-scopes-completion",
+            "--pretty",
+            "--header-insertion=never",
+            "-j=2",
+            "--inlay-hints",
+            "--header-insertion-decorators",
+            "--function-arg-placeholders",
+            "--completion-style=detailed",
+            "--limit-results=0"
+          },
+          init_option = {
+            fallbackFlags = { "-std=c++2a" },
+            clangdFileStatus = true,
+            compileCommands = cmd_json_file
+          },
+          capabilities = capabilities,
+          single_file_support = true,
+        }
+        -- vim.cmd("LspStart clangd")
+      end
 
+      vim.api.nvim_create_autocmd("VimEnter", {
+        once = true,
+        callback = function()
+          local files = vim.fn.readdir(".")
+          local json_files = vim.tbl_filter(function(fname)
+            return fname:match("^compile_commands.*%.json$")
+          end, files)
+          if #json_files == 0 then
+            -- TODO: not sure if this is desired behaviour
+            -- configure_clangd("compile_commands.json")
+            return
+          elseif #json_files == 1 then
+            configure_clangd(json_files[1])
+          else
+            vim.ui.select(json_files, {
+              prompt = "Select compile command file to use for clangd",
+            }, function(value, _)
+              configure_clangd(value)
+            end
+            )
+          end
+        end
+      })
 
       lspconfig.pylsp.setup({
         capabilties = capabilities,
