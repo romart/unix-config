@@ -103,7 +103,21 @@ return {
       })
 
       local configure_clangd = function(cmd_json_file)
-        print("Configure clangd with " .. cmd_json_file)
+        local tempdir = vim.fn.tempname()
+        vim.fn.mkdir(tempdir, "p")
+        local db_abs_path = vim.fn.fnamemodify(cmd_json_file, ":p")
+        local db_target_path = tempdir .. '/' .. 'compile_commands.json'
+        vim.loop.fs_symlink(db_abs_path, db_target_path, { dir = false })
+        print("Configure clangd with " .. db_abs_path .. ' -> ' .. db_target_path)
+
+        vim.api.nvim_create_autocmd("VimLeavePre", {
+          once = true,
+          callback = function()
+            vim.loop.fs_unlink(db_target_path)
+            vim.loop.fs_rmdir(tempdir)
+          end,
+        })
+
         lspconfig.clangd.setup {
           cmd = {
             "clangd",
@@ -117,12 +131,12 @@ return {
             "--header-insertion-decorators",
             "--function-arg-placeholders",
             "--completion-style=detailed",
+            "--compile-commands-dir=" .. tempdir,
             "--limit-results=0"
           },
           init_option = {
             fallbackFlags = { "-std=c++2a" },
             clangdFileStatus = true,
-            compileCommands = cmd_json_file
           },
           capabilities = capabilities,
           single_file_support = true,
