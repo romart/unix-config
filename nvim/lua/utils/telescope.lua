@@ -1,38 +1,26 @@
 
 local M = {}
 
-
-
 local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 local actions = require "telescope.actions"
 local action_state = require "telescope.actions.state"
-local utils = require("toggleterm-manager").utils
-
+local tm_utils = require("toggleterm-manager").utils
 
 local toggleterm = require("toggleterm")
 local terms = require("toggleterm.terminal")
 
 local function get_selected_lines(selection_type)
-  local tt_utils = require("toggleterm.utils")
+  local utils = require("utils")
   local api = vim.api
   local fn = vim.fn
   local lines = {}
   -- Beginning of the selection: line number, column number
-  local start_line, start_col
   if selection_type == "single_line" then
-    start_line, start_col = unpack(api.nvim_win_get_cursor(0))
-    start_col = start_col + 1
+    local start_line, _ = unpack(api.nvim_win_get_cursor(0))
     table.insert(lines, fn.getline(start_line))
   else
-    local res = tt_utils.get_line_selection("visual")
-    start_line, start_col = unpack(res.start_pos)
-    if selection_type == "visual_lines" then
-      lines = res.selected_lines
-    elseif selection_type == "visual_selection" then
-      lines = tt_utils.get_visual_selection(res, true)
-    end
+    lines = utils.get_visual_selected(false)
   end
 
   if not lines or not next(lines) then return nil end
@@ -60,17 +48,17 @@ function M.send_selection_to_term(mode, opts)
 
 	local picker = pickers.new(opts, {
 		prompt_title = config.titles.prompt,
-		results_title = config.display_mappings and utils.format_results_title(config.mappings)
+		results_title = config.display_mappings and tm_utils.format_results_title(config.mappings)
 			or config.titles.results,
 		preview_title = config.titles.preview,
 		previewer = conf.grep_previewer(opts),
-		finder = utils.create_finder(),
+		finder = tm_utils.create_finder(),
 		sorter = conf.generic_sorter(opts),
 		attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
-        local term = require("utils").find(terminals, function (term)
+        local term = require("tm_utils").find(terminals, function (term)
          return term.bufnr == selection.bufnr
         end)
         if not term then return end
