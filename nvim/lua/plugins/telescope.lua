@@ -57,31 +57,72 @@ return {
 
       local builtin = require("telescope.builtin")
       local wk = require("which-key")
+      local utils = require("utils")
 
-      local function find_files()
+      local function find_files(text)
         builtin.find_files({
-          find_command = { 'rg', '--files', '--hidden', '-g', '!.git' }
+          find_command = { 'rg', '--files', '--hidden', '-g', '!.git' },
+          search_file = text
+        })
+      end
+
+      local function vmode_wrapper(func, q)
+        local mode = vim.fn.mode()
+        if mode ~= 'v' and mode ~= 'V' then
+          return
+        end
+
+        local selected = utils.get_visual_selected(true)
+        -- vim.notify("WRAPPER: Selected text: '" .. selected .. "'")
+        local options = {}
+        options[q] = selected
+        func(options)
+      end
+
+      local function show_buffers()
+        builtin.buffers({
+          ignore_current_buffer = true,
+          sort_mru = true,
+        })
+      end
+      local function show_diagnostics()
+        builtin.diagnostics(({
+          line_width = 90,
+          bufnr = 0,
+        }))
+      end
+      local function current_buf_fzf()
+        builtin.current_buffer_fuzzy_find({
+          skip_empty_lines = true
         })
       end
 
       wk.add {
         { "<leader>",   group = "Telescope" },
-        { "<leader>B",  builtin.buffers,                     desc = "Open Buffers" },
-        { "<leader>H",  builtin.command_history,             desc = "Command History" },
-        { "<leader>M",  builtin.marks,                       desc = "Marks" },
-        { "<leader>R",  builtin.registers,                   desc = "Registers" },
-        { "<leader>J",  builtin.jumplist,                    desc = "Jump List" },
-        { "<leader>S",  builtin.search_history,              desc = "Search History" },
-        { "<leader>F",  find_files,                          desc = "Find Files" },
-        { "<leader>T",  ":Telescope toggleterm_manager<CR>", desc = "List Open Terminals" },
-        { "<leader>ds", builtin.lsp_document_symbols,        desc = "Current Buffer Symbols" },
-        { "<leader>gs", builtin.grep_string,                 desc = "Grep string (udnder cursor)" },
-        { "<leader>ww", builtin.treesitter,                  desc = "Function names, variables" },
-        { "<leader>fr", builtin.lsp_references,              desc = "Symbol (under cursor) references" },
-        { "<leader>fd", builtin.diagnostics,                 desc = "Diagnostics" },
-        { "<leader>fg", builtin.live_grep,                   desc = "Live Grep" },
-        { "<leader>fv", builtin.help_tags,                   desc = "Help Tags" },
-        { "<leader>ws", builtin.lsp_workspace_symbols,       desc = "Workspace Symbols" },
+        { "<leader>B",  show_buffers,                        desc = "Open Buffers",                      mode = "n" },
+        { "<leader>H",  builtin.command_history,             desc = "Command History",                   mode = "n" },
+        { "<leader>M",  builtin.marks,                       desc = "Marks",                             mode = "n" },
+        { "<leader>R",  builtin.registers,                   desc = "Registers",                         mode = "n" },
+        { "<leader>J",  builtin.jumplist,                    desc = "Jump List",                         mode = "n" },
+        { "<leader>S",  builtin.search_history,              desc = "Search History",                    mode = "n" },
+        { "<leader>F",  find_files,                          desc = "Find Files",                        mode = "n" },
+        { "<leader>T",  ":Telescope toggleterm_manager<CR>", desc = "List Open Terminals",               mode = "n" },
+        { "<leader>ds", builtin.lsp_document_symbols,        desc = "Current Buffer Symbols",            mode = "n" },
+        { "<leader>gs", builtin.grep_string,                 desc = "Grep string (udnder cursor)",       mode = "n" },
+        { "<leader>ww", builtin.treesitter,                  desc = "Function names, variables",         mode = "n" },
+        { "<leader>fr", builtin.lsp_references,              desc = "Symbol (under cursor) references",  mode = "n" },
+        { "<leader>fd", show_diagnostics,                    desc = "Diagnostics",                       mode = "n" },
+        { "<leader>ff", current_buf_fzf,                     desc = "FZF Current Buffer",                mode = "n" },
+        { "<leader>fg", builtin.live_grep,                   desc = "Live Grep",                         mode = "n" },
+        { "<leader>fv", builtin.help_tags,                   desc = "Help Tags",                         mode = "n" },
+        { "<leader>ws", builtin.lsp_workspace_symbols,       desc = "Workspace Symbols",                 mode = "n" },
+        { "<leader>t",  builtin.resume,                      desc = "Resume Previous Telescope session", mode = { "n", "v" } },
+
+      }
+      wk.add {
+        { "<leader>",   group = "Telescope" },
+        { "<leader>gs", function() vmode_wrapper(builtin.grep_string, "search") end,          desc = "Grep string (udnder cursor)", mode = "v" },
+        { "<leader>ws", function() vmode_wrapper(builtin.lsp_workspace_symbols, "query") end, desc = "Workspace Symbols",           mode = "v" },
       }
     end
   },
