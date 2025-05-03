@@ -27,6 +27,7 @@ return {
           "marksman",
           "sqlls",
           "texlab",
+          -- "cl-lsp"
         },
       })
     end
@@ -181,11 +182,28 @@ return {
         capabilties = capabilities,
       })
 
+      -- No LISP LSP :(
+      -- if not lspconfig.cl_lsp then
+      --   lspconfig.cl_lsp = {
+      --     default_config = {
+      --       cmd = { vim.env.HOME .. "/.roswell/bin/cl-lsp"},
+      --       filetypes = {'lisp', "scm"},
+      --       root_dir = function (startpath)
+      --         return vim.fs.dirname(vim.fs.find('.git', { path = startpath, upward = true })[1])
+      --       end,
+      --       settings = {},
+      --     },
+      --   }
+      -- end
+      --
+      -- lspconfig.cl_lsp.setup {}
+
       local wk = require("which-key")
       wk.add
       {
         { "gd", vim.lsp.buf.definition,  desc = "Goto Definition",  mode = "n" },
         { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration", mode = "n" },
+        -- { "<Enter>", vim.lsp.buf.code_action, desc = "Code Action", mode = "i" },
       }
     end
   },
