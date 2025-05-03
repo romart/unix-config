@@ -11,8 +11,13 @@ wk.add
     vim.diagnostic.open_float(0, { scope = "line" })
   end, desc = "Show diagnostics on current line", mode = "n" },
   -- window navigation
-  { "<C-h>", "<C-w>h", desc = "Switch window (left)",  mode = "n" },
-  { "<C-j>", "<C-w>j", desc = "Switch window (down)",  mode = "n" },
-  { "<C-k>", "<C-w>k", desc = "Switch window (up)",    mode = "n" },
-  { "<C-l>", "<C-w>l", desc = "Switch window (right)", mode = "n" }
+  { "<C-h>", "<C-w>h",  desc = "Switch window (left)",  mode = "n" },
+  { "<C-j>", "<C-w>j",  desc = "Switch window (down)",  mode = "n" },
+  { "<C-k>", "<C-w>k",  desc = "Switch window (up)",    mode = "n" },
+  { "<C-l>", "<C-w>l",  desc = "Switch window (right)", mode = "n" },
+  -- insertion mode navigation
+  { "<C-h>", "<Left>",  desc = "Move cursor (left)",  mode = "i" },
+  { "<C-j>", "<Down>",  desc = "Move cursor (down)",  mode = "i" },
+  { "<C-k>", "<Up>",    desc = "Move cursor (up)",    mode = "i" },
+  { "<C-l>", "<Right>", desc = "Move cursor (right)", mode = "i" }
 }
