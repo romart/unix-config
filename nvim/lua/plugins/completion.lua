@@ -23,7 +23,8 @@ return {
               keys = 'qwertyuiopzxcvbnmasdfghjkl',
               manual_position = true,
               highlight = 'Search',
-              highlight_grey = 'Comment'
+              highlight_grey = 'Comment',
+              check_ts = true
             },
           }
         end
