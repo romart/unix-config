@@ -44,5 +44,11 @@
 
 font-size=16
 theme="Banana Blueberry"
+
+background-blur-radius = 20
+# background-opacity = 0.7
+mouse-hide-while-typing = true
+window-decoration = true
+
 # theme="Atom"
 # theme="CGA"
