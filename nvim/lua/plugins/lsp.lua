@@ -104,35 +104,51 @@ return {
       })
 
       local configure_clangd = function(cmd_json_file)
-        local tempdir = vim.fn.tempname()
-        vim.fn.mkdir(tempdir, "p")
         local db_abs_path = vim.fn.fnamemodify(cmd_json_file, ":p")
-        local db_target_path = tempdir .. '/' .. 'compile_commands.json'
-        vim.loop.fs_symlink(db_abs_path, db_target_path, { dir = false })
-        print("Configure clangd with " .. db_abs_path .. ' -> ' .. db_target_path)
-
-        vim.api.nvim_create_autocmd("VimLeavePre", {
-          once = true,
-          callback = function()
+        -- unfortunattly clangd cannot accept properly compilation DB from direcotry other than current '.'
+        -- So we need to do this hacks instead of original pure silution with temporary directory
+        local db_target_path = './compile_commands.json'
+        local stat = vim.loop.fs_stat(db_target_path)
+        local doLink = true
+        if stat then
+          if stat.type == 'link' then
             vim.loop.fs_unlink(db_target_path)
-            vim.loop.fs_rmdir(tempdir)
-          end,
-        })
+          else
+            local db_existed_abs_path = vim.fn.fnamemodify(db_target_path, ":p")
+            if db_existed_abs_path ~= db_abs_path then
+              print(
+                "compile_commands.json is already exists in working dir and it is not a symlink. Cannot select compilation database " ..
+                cmd_json_file)
+            end
+            doLink = false
+          end
+        end
+
+        if doLink then
+          vim.loop.fs_symlink(db_abs_path, db_target_path, { dir = false })
+          print("Configure clangd with " .. db_abs_path .. ' -> ' .. db_target_path)
+
+          vim.api.nvim_create_autocmd("VimLeavePre", {
+            once = true,
+            callback = function()
+              vim.loop.fs_unlink(db_target_path)
+            end,
+          })
+        end
 
         lspconfig.clangd.setup {
           cmd = {
             "clangd",
+            "--compile-commands-dir=.",
             "--background-index",
             "--pch-storage=memory",
             "--all-scopes-completion",
             "--pretty",
             "--header-insertion=never",
             "-j=2",
-            "--inlay-hints",
             "--header-insertion-decorators",
-            "--function-arg-placeholders",
+            "--function-arg-placeholders=false",
             "--completion-style=detailed",
-            "--compile-commands-dir=" .. tempdir,
             "--limit-results=0"
           },
           init_option = {
