@@ -1,8 +1,8 @@
 ## Setup
 
 ```shell
-mkdir -p $HOME/.config/tmux
-ln -s $GIT_REPO/tmux/common.tmux.conf $HOME/.config/tmux/common.tmux.conf
+ln -s $GIT_REPO/tmux $HOME/.config/tmux
+ln -s $HOME/.config/tmux/{remote|local}.tmux.conf $HOME/.tmux.conf
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 ## Plugin install
