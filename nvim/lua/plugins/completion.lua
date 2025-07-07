@@ -98,7 +98,7 @@ return {
               Field = "󰀫", -- Lambda symbol for methods
               Property = "󰀫", -- Lambda symbol for methods
               Keyword = "k", -- Lambda symbol for methods
-              Struct = "π", -- Lambda symbol for methods
+              -- Struct = "π", -- Lambda symbol for methods
               Struct = "Π", -- Lambda symbol for methods
               Enum = "τ", -- Lambda symbol for methods
               EnumMember = "τ", -- Lambda symbol for methods
