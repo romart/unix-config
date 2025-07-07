@@ -38,5 +38,7 @@ require("lazy").setup("plugins", {
 require('keymappings')
 -- Apply general vim settings
 require('settings')
+-- Code for auto saving
+require('autosaver')
 
 vim.cmd("colorscheme tokyonight-night")
