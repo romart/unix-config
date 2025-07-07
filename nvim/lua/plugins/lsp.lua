@@ -219,7 +219,7 @@ return {
       {
         { "gd", vim.lsp.buf.definition,  desc = "Goto Definition",  mode = "n" },
         { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration", mode = "n" },
-        -- { "<Enter>", vim.lsp.buf.code_action, desc = "Code Action", mode = "i" },
+        { "gC", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
       }
     end
   },
