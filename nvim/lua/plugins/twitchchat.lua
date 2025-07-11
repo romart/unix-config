@@ -1,0 +1,21 @@
+-- return {
+--   spec = {
+--     {
+--       "yourusername/nvim-twitchchat",  -- Replace with your GitHub repository
+--       config = function()
+--         require("plugins.twitchchat").setup({
+--           width = 50,            -- Window width in characters
+--           height = 25,           -- Window height in lines
+--           row = 1,
+--           col = vim.o.columns - 55,
+--           channel = "gatherprice",  -- Default Twitch channel
+--           client_id = "your_client_id",         -- Twitch API client ID (required)
+--           client_secret = "your_client_secret", -- Twitch API client secret (required)
+--           max_lines = 150,       -- Maximum number of lines to keep in chat
+--           -- Add any other options here
+--         })
+--       end,
+--     },
+--   },
+--   defaults = { lazy = false },
+-- }
