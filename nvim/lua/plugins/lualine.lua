@@ -4,6 +4,7 @@ return {
 
   dependencies = { "echasnovski/mini.icons" },
   config = function()
+    sk = require("screenkey")
     require("lualine").setup({
       options = {
         icons_enabled = true,
@@ -20,7 +21,11 @@ return {
             local bufnr = vim.api.nvim_get_current_buf()
             local fullpath = vim.api.nvim_buf_get_name(bufnr)
             local filename = vim.fn.fnamemodify(fullpath, ":t")
-            return " " .. bufnr .. " " .. filename
+            local keys = sk.get_keys()
+            if keys and keys ~= "" then
+              keys = " | " .. keys
+            end
+            return " " .. bufnr .. " " .. filename .. keys
           end
         },
         lualine_x = {
