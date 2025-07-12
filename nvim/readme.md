@@ -7,7 +7,12 @@
 ```shell
 sudo apt install ripgrep fd-find luarocks npm
 sudo npm install -g tree-sitter-cli
+sudo npm install -g neovim
+pip3 install --user pynvim
 ```
+1.1. Set JAVA_HOME
+
+Make sure `JAVA_HOME` points to the correct place and `$JAVA_HOME/bin/java -version` works
 
 2. Build yazi tool
 
