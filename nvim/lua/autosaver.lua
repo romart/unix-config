@@ -1,5 +1,6 @@
 
 
+local utils = require('utils')
 local autosave_enabled = true
 local force_tsr = false
 
@@ -24,6 +25,10 @@ end
 
 local autosave = function()
   if autosave_enabled then
+    if utils.is_git_commit() then
+      -- do not auto-save in git commit
+      return
+    end
     if force_tsr then
       trailings_cleaner();
     end

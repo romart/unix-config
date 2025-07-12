@@ -152,5 +152,12 @@ function utils.get_visual_selected(merge)
   return extracted_lines
 end
 
+function utils.is_git_commit()
+  local filename = vim.fn.expand("%:t")
+  local is_commitmsg_file = filename == "COMMIT_EDITMSG"
+  local has_gitcommit_env = vim.env.GIT_COMMIT ~= nil
+  local is_gc_filetype = vim.bo.filetype == "gitcommit"
+  return is_commitmsg_file or has_gitcommit_env or is_gc_filetype;
+end
 
 return utils

@@ -161,29 +161,31 @@ return {
         -- vim.cmd("LspStart clangd")
       end
 
-      vim.api.nvim_create_autocmd("VimEnter", {
-        once = true,
-        callback = function()
-          local files = vim.fn.readdir(".")
-          local json_files = vim.tbl_filter(function(fname)
-            return fname:match("^compile_commands.*%.json$")
-          end, files)
-          if #json_files == 0 then
-            -- TODO: not sure if this is desired behaviour
-            -- configure_clangd("compile_commands.json")
-            return
-          elseif #json_files == 1 then
-            configure_clangd(json_files[1])
-          else
-            vim.ui.select(json_files, {
-              prompt = "Select compile command file to use for clangd",
-            }, function(value, _)
-              configure_clangd(value)
+      if not utils.is_git_commit() then
+        vim.api.nvim_create_autocmd("VimEnter", {
+          once = true,
+          callback = function()
+            local files = vim.fn.readdir(".")
+            local json_files = vim.tbl_filter(function(fname)
+              return fname:match("^compile_commands.*%.json$")
+            end, files)
+            if #json_files == 0 then
+              -- TODO: not sure if this is desired behaviour
+              -- configure_clangd("compile_commands.json")
+              return
+            elseif #json_files == 1 then
+              configure_clangd(json_files[1])
+            else
+              vim.ui.select(json_files, {
+                prompt = "Select compile command file to use for clangd",
+              }, function(value, _)
+                  configure_clangd(value)
+                end
+              )
             end
-            )
           end
-        end
-      })
+        })
+      end
 
       lspconfig.pylsp.setup({
         capabilties = capabilities,
