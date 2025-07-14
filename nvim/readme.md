@@ -20,10 +20,10 @@ Follow the [instruction](https://yazi-rs.github.io/docs/installation/#source)
 
 3. Setup vscode cpp tools
 
-3.1 Download last release [cpptools-alpine-x64.vsix](https://github.com/microsoft/vscode-cpptools/releases)
+3.1 Download last release [cpptools-linux-x64.vsix](https://github.com/microsoft/vscode-cpptools/releases)
 3.2 Setup
 ```shell
-unzip  cpptools-alpine-x64.vsix -d $HOME/cpptools
+unzip  cpptools-linux-x64.vsix -d $HOME/cpptools
 chmod +x $HOME/cpptools/extension/debugAdapters/bin/OpenDebugAD7
 ```
 
