@@ -79,12 +79,12 @@ function utils.toggle_auto_format()
 end
 
 function utils.find(tbl, predicate)
-    for _, v in ipairs(tbl) do
-        if predicate(v) then
-            return v
-        end
+  for _, v in ipairs(tbl) do
+    if predicate(v) then
+      return v
     end
-    return nil  -- Return nil if no element matches the predicate
+  end
+  return nil   -- Return nil if no element matches the predicate
 end
 
 local function extract_visual_selection(res, mode)
@@ -154,10 +154,22 @@ end
 
 function utils.is_git_commit()
   local filename = vim.fn.expand("%:t")
-  local is_commitmsg_file = filename == "COMMIT_EDITMSG"
+  local git_files = {
+    ["COMMIT_EDITMSG"] = true,
+    ["MERGE_MSG"] = true,
+    ["TAG_EDITMSG"] = true,
+  }
+  local is_commitmsg_file = git_files[filename]
   local has_gitcommit_env = vim.env.GIT_COMMIT ~= nil
   local is_gc_filetype = vim.bo.filetype == "gitcommit"
-  return is_commitmsg_file or has_gitcommit_env or is_gc_filetype;
+  if is_commitmsg_file or has_gitcommit_env or is_gc_filetype then
+    return true
+  end
+
+  local fpath = vim.fn.expand("%:p") -- full path
+
+  return fpath:match("/rebase%-merge/git%-rebase%-todo$") or
+      fpath:match("/rebase%-apply/") ~= nil
 end
 
 return utils
