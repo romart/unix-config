@@ -33,6 +33,20 @@ local autosave = function()
       trailings_cleaner();
     end
     if vim.bo.modified and vim.bo.modifiable and vim.bo.buftype == "" and vim.fn.expand("%") ~= "" then
+        local win = vim.api.nvim_get_current_win()
+      local buf = vim.api.nvim_get_current_buf()
+      local pos = vim.api.nvim_win_get_cursor(win) -- Save cursor
+      -- local pos = vim.api.nvim_win_get_cursor(0)  -- save cursor
+      vim.cmd("silent write")
+
+      vim.schedule(function()
+        -- due to 'write' command is async so we need to make sure cursor restoration
+        -- happens after write
+        -- vim.api.nvim_win_set_cursor(0, pos)
+        if vim.api.nvim_get_current_buf() == buf and vim.api.nvim_get_current_win() == win then
+          vim.api.nvim_win_set_cursor(win, pos)
+        end
+      end)
       local pos = vim.api.nvim_win_get_cursor(0)  -- save cursor
       vim.cmd("silent write")
 
