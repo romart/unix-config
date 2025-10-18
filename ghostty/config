@@ -42,7 +42,10 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 
-font-size=16
+font-size=14
+font-family = "Google Sans Code"
+font-family-bold = "Google Sans Code Bold"
+font-family-italic = "Google Sans Code Italic"
 theme="Banana Blueberry"
 
 background-blur-radius = 20
