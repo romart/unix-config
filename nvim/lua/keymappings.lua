@@ -19,5 +19,8 @@ wk.add
   { "<C-h>", "<Left>",  desc = "Move cursor (left)",  mode = "i" },
   { "<C-j>", "<Down>",  desc = "Move cursor (down)",  mode = "i" },
   { "<C-k>", "<Up>",    desc = "Move cursor (up)",    mode = "i" },
-  { "<C-l>", "<Right>", desc = "Move cursor (right)", mode = "i" }
+  { "<C-l>", "<Right>", desc = "Move cursor (right)", mode = "i" },
+  -- paste/delete without yank override
+  { "x", "\"_x", desc = "Delete selected text without yank override", mode = "x" },
+  { "p", "\"_dP", desc = "Replace selected text without yank override", mode = "x" }
 }
