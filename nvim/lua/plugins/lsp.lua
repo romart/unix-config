@@ -40,24 +40,24 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local utils = require('utils')
 
-      lspconfig.sqlls.setup({
+      vim.lsp.config('sqlls', {
         capabilities = capabilities,
       })
 
-      lspconfig.texlab.setup({
+      vim.lsp.config('texlab', {
         capabilities = capabilities,
       })
 
-      lspconfig.hls.setup({
+      vim.lsp.config('hls', {
         capabilities = capabilities,
         single_file_support = true,
       })
 
-      lspconfig.bashls.setup({
+      vim.lsp.config('bashls', {
         capabilities = capabilities,
       })
 
-      lspconfig.lua_ls.setup({
+      vim.lsp.config('lua_ls', {
         capabilities = capabilities,
         -- cmd = { "lua_ls" },
         settings = {
@@ -75,19 +75,19 @@ return {
         },
       })
 
-      lspconfig.jsonls.setup({
+      vim.lsp.config('jsonls', {
         capabilities = capabilities,
       })
 
-      lspconfig.cssls.setup({
+      vim.lsp.config('cssls', {
         capabilities = capabilities,
       })
 
-      lspconfig.yamlls.setup({
+      vim.lsp.config('yamlls', {
         capabilities = capabilities,
       })
 
-      lspconfig.html.setup({
+      vim.lsp.config('html', {
         capabilities = capabilities,
         filetypes = {
           "templ",
@@ -136,7 +136,7 @@ return {
           })
         end
 
-        lspconfig.clangd.setup {
+        vim.lsp.config('clangd', {
           cmd = {
             "clangd",
             "--compile-commands-dir=.",
@@ -157,7 +157,7 @@ return {
           },
           capabilities = capabilities,
           single_file_support = true,
-        }
+        })
         -- vim.cmd("LspStart clangd")
       end
 
@@ -187,7 +187,7 @@ return {
         })
       end
 
-      lspconfig.pylsp.setup({
+      vim.lsp.config('pylsp', {
         capabilties = capabilities,
         settings = {
           python = {
@@ -196,7 +196,7 @@ return {
         },
       })
 
-      lspconfig.marksman.setup({
+      vim.lsp.config('marksman', {
         capabilties = capabilities,
       })
 
