@@ -33,6 +33,8 @@ vim.cmd("autocmd FileType sql setlocal nocindent")
 
 vim.g.python3_host_prog = utils.get_python_path()
 vim.g.disable_autoformat = true
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 vim.opt.fillchars = {
   vert = " ", horiz = " ", horizup = " ", horizdown = " ", vertleft = " ", vertright = " ", verthoriz = " "
