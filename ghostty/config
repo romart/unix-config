@@ -50,6 +50,7 @@ theme="Banana Blueberry"
 
 background-blur-radius = 20
 background-opacity = 0.8
+background = #000000
 
 mouse-hide-while-typing = true
 window-decoration = true
