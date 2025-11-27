@@ -55,5 +55,7 @@ background = #000000
 mouse-hide-while-typing = true
 window-decoration = true
 
+shell-integration = zsh
+command = /usr/bin/zsh
 # theme="Atom"
 # theme="CGA"
