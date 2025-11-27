@@ -131,6 +131,10 @@ source $HOME/.openvpn3/vpn_api.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+if [[ -n `which lsd` ]]; then
+  alias ls="lsd"
+fi
+
 if [[ -z $SSH_CONNECTION ]]; then
   typeset -g POWERLEVEL9K_DIR_FOREGROUND='#5577bb'
   typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#8888ff'
@@ -139,4 +143,7 @@ else
   typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#007f7f'
 fi
 
+if [[ -n `which neofetch` ]]; then
+  neofetch
+fi
 
