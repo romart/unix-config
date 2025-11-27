@@ -39,3 +39,28 @@ vim.g.loaded_ruby_provider = 0
 vim.opt.fillchars = {
   vert = " ", horiz = " ", horizup = " ", horizdown = " ", vertleft = " ", vertright = " ", verthoriz = " "
 }
+
+local function sync_bg_with_terminal()
+  local bg = "#000000"
+
+  local groups = {
+    "Normal",
+    "NormalNC",
+    "NormalFloat",
+    "SignColumn",
+    "LineNr",
+    "CursorLineNr",
+    "EndOfBuffer",
+    "StatusLine",
+    "StatusLineNC",
+  }
+
+  for _, group in ipairs(groups) do
+    vim.api.nvim_set_hl(0, group, { bg = bg })
+  end
+end
+
+-- run after colorscheme so it overrides theme defaults
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = sync_bg_with_terminal,
+})
