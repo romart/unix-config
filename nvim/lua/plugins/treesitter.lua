@@ -1,6 +1,7 @@
 return {
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
+  event = { "BufReadPre", "BufNewFile" },
   config = function()
     local treesitter = require("nvim-treesitter.configs")
     treesitter.setup {
@@ -25,6 +26,9 @@ return {
         "scheme",
         "markdown",
         "latex",
+        "vim",
+        "toml",
+        "yaml"
       },
       highlight = {
         enable = true,
@@ -37,7 +41,8 @@ return {
         enable = true,
         keymaps = {
           init_selection = "<CR>",
-          scope_incremental = "<CR>",
+          -- scope_incremental = "<CR>",
+          scope_incremental = false,
           node_incremental = "<TAB>",
           node_decremental = "<S-TAB>",
         },
