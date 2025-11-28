@@ -1,0 +1,36 @@
+[general]
+import = [
+    "/home/roman/.config/alacritty/themes/themes/Banana Blueberry.toml"
+]
+
+[font]
+normal = {family="Google Sans Code", style = "Regular"}
+bold = {family="Google Sans Code", style = "Bold"}
+italic = {family="Google Sans Code", style = "Italic"}
+bold_italic = {family="Google Sans Code", style = "Bold Italic"}
+size = 14
+
+[window]
+opacity=0.8
+blur = true
+decorations_theme_variant = "Dark"
+dynamic_padding = true
+startup_mode = "Maximized"
+
+[colors.primary]
+background="#000000"
+
+[colors]
+transparent_background_colors = true
+draw_bold_text_with_bright_colors = true
+
+[terminal]
+shell = "/usr/bin/zsh"
+
+[mouse]
+hide_when_typing = true
+
+
+[env]
+COLORTERM = "truecolor"
+TERM = "tmux-256color"
