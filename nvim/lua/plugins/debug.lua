@@ -55,7 +55,12 @@ return {
             local jsonconf = utils.load_config_from_json(gdbconf)
             return jsonconf.program
           end,
-          cwd = '${workspaceFolder}',
+          -- cwd = '${workspaceFolder}',
+          cwd = function()
+            local gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
+            local jsonconf = utils.load_config_from_json(gdbconf)
+            return jsonconf.cwd
+          end,
           args = function()
             local gdbconf = vim.fn.getcwd() .. '/' .. '.dbg.config.json'
             local jsonconf = utils.load_config_from_json(gdbconf)
