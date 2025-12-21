@@ -1,0 +1,218 @@
+@define-color bg    #1a1b26;
+@define-color fg    #a9b1d6;
+@define-color blk   #32344a;
+@define-color red   #f7768e;
+@define-color grn   #9ece6a;
+@define-color ylw   #e0af68;
+@define-color blu   #7aa2f7;
+@define-color mag   #ad8ee6;
+@define-color cyn   #0db9d7;
+@define-color brblk #444b6a;
+@define-color wht   #ffffff;
+
+* {
+    /* font-family: "JetBrainsMono Nerd Font", */
+    /*            "Font Awesome 7 Free Solid", */
+    /*            "Font Awesome 7", */
+    /*            "Symbols Nerd Font", */
+    /*            "Symbols Nerd Font Mono", */
+    /*            monospace; */
+    font-family: "Google Sans Code", monospace;
+    font-size: 18px;
+    border-width: 0px;
+    font-weight: 500;
+    font-style: normal;
+}
+
+window#waybar {
+    background-color: alpha(@bg, 0.2);
+    color: @fg;
+}
+
+.modules-left, .modules-center, .modules-right, #workspaces {
+    margin: 0;
+    padding: 0;
+}
+
+window#waybar.hidden {
+    background-color: alpha(@bg, 0.2);
+}
+
+button {
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -3px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 0;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -3px #ffffff;
+    padding: 0;
+    margin: 0;
+}
+
+/* you can set a style on hover for any module like this */
+#pulseaudio:hover {
+    background-color: #a37800;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    color: @cyn;
+    /* background-color: transparent; */
+}
+
+#workspaces button.active {
+    border-bottom: 3px solid @mag;
+}
+
+#workspaces button.empty {
+    color: @wht;
+}
+
+#workspaces button.empty.active {
+    border-bottom: 3px solid @mag;
+}
+
+
+#mode {
+    background-color: #64727D;
+    box-shadow: inset 0 -3px #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#cpu_mem,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#power-profiles-daemon,
+#window,
+#workspaces {
+  padding: 1px 6px;
+  margin: 1px 3px;
+}
+
+#custom-sep {
+    color: @brblk;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+#clock {
+    color: @wht;
+}
+
+#battery {
+    color: @grn;
+}
+
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {
+    color: @red;
+    animation-name: blink;
+    animation-duration: 2.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    border: 1px solid @red;
+    border-radius: 8px;
+}
+
+
+label:focus {
+    background-color: #000000;
+}
+
+#memory,
+#cpu {
+  color: @mag;
+}
+
+#cpu_mem {
+    color: @mag;
+}
+
+
+#network {
+    color: @blu;
+}
+
+#network.disconnected {
+  color: #353535
+}
+
+#pulseaudio {
+    color: @ylw;
+}
+
+#pulseaudio.muted {
+    color: #2a5c45;
+}
+
+
+#temperature {
+    color: @cyn;
+}
+
+#temperature.critical {
+    color: #eb4d4b;
+}
+
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+#language {
+    color: #740864;
+}
+
+menu {
+  background: @bg;
+  border-radius: 1px;
+  padding: 1px 0;
+}
+
+menu menuitem {
+  padding: 1px 1px;
+}
+
+menu menuitem:hover {
+  background: @fg;
+}
