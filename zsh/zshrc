@@ -143,6 +143,8 @@ else
   typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#007f7f'
 fi
 
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 if command -v neofetch >/dev/null 2>&1; then
   neofetch
 fi
