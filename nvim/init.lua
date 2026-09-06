@@ -5,6 +5,11 @@ end
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+local ui2_ok, ui2 = pcall(require, "vim._core.ui2")
+if ui2_ok then
+  ui2.enable({ enable = true })
+end
+
 require('settings')
 require('plugins')
 require('keymappings')
