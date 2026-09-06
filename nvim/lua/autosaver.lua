@@ -14,18 +14,37 @@ local function notify_err(msg)
 end
 
 local function get_mtime_ns(path)
-  local st = uv.fs_stat(path)
+  local st, _, code = uv.fs_stat(path)
+  if not st and code == "ENOENT" then return false end
   if not st or not st.mtime then return nil end
   local sec = st.mtime.sec or st.mtime.tv_sec
   local nsec = st.mtime.nsec or st.mtime.tv_nsec or 0
   if not sec then return nil end
-  return sec * 1e9 + nsec
+  return tostring(sec) .. ":" .. tostring(nsec)
 end
 
 local function update_buf_mtime(buf)
   local name = vim.api.nvim_buf_get_name(buf)
   if name == "" then return end
   buf_mtime_ns[buf] = get_mtime_ns(name)
+end
+
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {
+  callback = function(args)
+    update_buf_mtime(args.buf)
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWipeout", {
+  callback = function(args)
+    buf_mtime_ns[args.buf] = nil
+  end,
+})
+
+for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+  if vim.api.nvim_buf_is_loaded(buf) and not vim.bo[buf].modified then
+    update_buf_mtime(buf)
+  end
 end
 
 local toggle_autosave = function()
@@ -66,7 +85,9 @@ local autosave = function()
   -- Avoid clobbering external edits (Codex, git checkout, formatters, etc.)
   local disk_mtime = get_mtime_ns(path)
   local known_mtime = buf_mtime_ns[buf]
-  if known_mtime and disk_mtime and disk_mtime > known_mtime then
+  if disk_mtime == nil
+      or (known_mtime == nil and disk_mtime ~= false)
+      or (known_mtime ~= nil and disk_mtime ~= known_mtime) then
     return
   end
 
@@ -91,7 +112,7 @@ local autosave = function()
     local ok_upd, err_upd = pcall(vim.cmd, "silent update")
     if not ok_upd then
       notify_err("Autosave: write failed:\n" .. tostring(err_upd))
-      -- still continue to cursor restore + mtime update attempt below
+      -- Restore the cursor without accepting a new disk timestamp.
     end
 
     vim.schedule(function()
@@ -103,7 +124,6 @@ local autosave = function()
         end
       end
 
-      update_buf_mtime(buf)
       release()
     end)
   end)
