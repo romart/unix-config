@@ -104,34 +104,36 @@ return {
       })
 
       local configure_clangd = function(cmd_json_file)
+        if not cmd_json_file then return end
         local db_abs_path = vim.fn.fnamemodify(cmd_json_file, ":p")
-        -- unfortunattly clangd cannot accept properly compilation DB from direcotry other than current '.'
-        -- So we need to do this hacks instead of original pure silution with temporary directory
-        local db_target_path = './compile_commands.json'
-        local stat = vim.loop.fs_stat(db_target_path)
-        local doLink = true
-        if stat then
-          if stat.type == 'link' then
-            vim.loop.fs_unlink(db_target_path)
-          else
-            local db_existed_abs_path = vim.fn.fnamemodify(db_target_path, ":p")
-            if db_existed_abs_path ~= db_abs_path then
-              print(
-                "compile_commands.json is already exists in working dir and it is not a symlink. Cannot select compilation database " ..
-                cmd_json_file)
-            end
-            doLink = false
-          end
+        local uv = vim.uv or vim.loop
+        local stat = uv.fs_stat(db_abs_path)
+        if not stat or stat.type ~= "file" then
+          vim.notify("Compilation database is not a file: " .. db_abs_path, vim.log.levels.ERROR)
+          return
         end
-
-        if doLink then
-          vim.loop.fs_symlink(db_abs_path, db_target_path, { dir = false })
-          print("Configure clangd with " .. db_abs_path .. ' -> ' .. db_target_path)
-
+        local db_dir = vim.fn.fnamemodify(db_abs_path, ":h")
+        if vim.fn.fnamemodify(db_abs_path, ":t") ~= "compile_commands.json" then
+          local temp_dir, err = uv.fs_mkdtemp(vim.fn.tempname() .. "-XXXXXX")
+          if not temp_dir then
+            vim.notify("Cannot create database directory: " .. tostring(err), vim.log.levels.ERROR)
+            return
+          end
+          local link = temp_dir .. "/compile_commands.json"
+          local linked, link_err = uv.fs_symlink(db_abs_path, link)
+          if not linked then
+            uv.fs_rmdir(temp_dir)
+            vim.notify("Cannot link database: " .. tostring(link_err), vim.log.levels.ERROR)
+            return
+          end
+          db_dir = temp_dir
           vim.api.nvim_create_autocmd("VimLeavePre", {
             once = true,
             callback = function()
-              vim.loop.fs_unlink(db_target_path)
+              if uv.fs_readlink(link) == db_abs_path then
+                uv.fs_unlink(link)
+              end
+              uv.fs_rmdir(temp_dir)
             end,
           })
         end
@@ -139,7 +141,7 @@ return {
         vim.lsp.config('clangd', {
           cmd = {
             "clangd",
-            "--compile-commands-dir=.",
+            "--compile-commands-dir=" .. db_dir,
             "--background-index",
             "--pch-storage=memory",
             "--all-scopes-completion",
@@ -151,7 +153,7 @@ return {
             "--completion-style=detailed",
             "--limit-results=0"
           },
-          init_option = {
+          init_options = {
             fallbackFlags = { "-std=c++2a" },
             clangdFileStatus = true,
           },
@@ -188,7 +190,7 @@ return {
       end
 
       vim.lsp.config('pylsp', {
-        capabilties = capabilities,
+        capabilities = capabilities,
         settings = {
           python = {
             pythonPath = utils.get_python_path(),
@@ -197,7 +199,7 @@ return {
       })
 
       vim.lsp.config('marksman', {
-        capabilties = capabilities,
+        capabilities = capabilities,
       })
 
       -- No LISP LSP :(
