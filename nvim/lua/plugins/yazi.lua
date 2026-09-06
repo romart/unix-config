@@ -8,8 +8,8 @@ return {
       show_help = "<f1>",
     },
   },
-  config = function()
-    require("yazi").setup {}
+  config = function(_, opts)
+    require("yazi").setup(opts)
     local wk = require("which-key")
     -- TODO: use direct calls to yazi
     wk.add(
