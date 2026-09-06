@@ -1,6 +1,6 @@
 [general]
 import = [
-    "/home/roman/.config/alacritty/themes/themes/Banana Blueberry.toml"
+    "~/.config/alacritty/themes/themes/Banana Blueberry.toml"
 ]
 
 [font]
@@ -30,7 +30,11 @@ shell = "/usr/bin/zsh"
 [mouse]
 hide_when_typing = true
 
+[keyboard]
+bindings = [
+    # Send a distinct Shift+Enter (CSI u), rather than ordinary Enter.
+    { key = "Enter", mods = "Shift", mode = "~Vi|~Search", chars = "\u001b[13;2u" },
+]
 
 [env]
 COLORTERM = "truecolor"
-TERM = "tmux-256color"

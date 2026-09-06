@@ -149,3 +149,11 @@ if command -v neofetch >/dev/null 2>&1; then
   neofetch
 fi
 
+# Alacritty/tmux report Shift+Enter as CSI u. Insert a literal newline into
+# the editing buffer; only regular Enter should accept/execute the command.
+function insert-newline() {
+  LBUFFER+=$'\n'
+}
+zle -N insert-newline
+bindkey -M emacs $'\e[13;2u' insert-newline
+bindkey -M viins $'\e[13;2u' insert-newline
