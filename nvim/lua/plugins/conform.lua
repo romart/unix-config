@@ -39,14 +39,5 @@ return {
       end,
     })
 
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function(args)
-        if vim.g.disable_autoformat then
-          return
-        end
-        conform.format({ bufnr = args.buf })
-      end,
-    })
   end
 }
