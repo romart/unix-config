@@ -1,16 +1,6 @@
-return {
-
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lsp-signature-help" },
-      { "kdheepak/cmp-latex-symbols" },
-      {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        config = function()
+return function()
+  -- windwp/nvim-autopairs
+  do
           require("nvim-autopairs").setup {
             disable_filetype = { "TelescopePrompt", "vim" },
             fast_wrap = {
@@ -28,13 +18,10 @@ return {
               check_ts = true
             },
           }
-        end
-      },
-      {
-        "L3MON4D3/LuaSnip"
-      }
-    },
-    config = function()
+  end
+
+  -- hrsh7th/nvim-cmp
+  do
       local cmp = require("cmp")
       local lspkind = require("lspkind")
       local luasnip = require("luasnip")
@@ -121,6 +108,5 @@ return {
           end
         }
       }
-    end
-  },
-}
+  end
+end

@@ -1,14 +1,13 @@
-return {
-  "mikavilpas/yazi.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- if you want to open yazi instead of netrw, see below for more info
-    open_for_directories = false,
-    keymaps = {
-      show_help = "<f1>",
-    },
-  },
-  config = function(_, opts)
+return function()
+  -- mikavilpas/yazi.nvim
+  do
+    local opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    }
     require("yazi").setup(opts)
     local wk = require("which-key")
     -- TODO: use direct calls to yazi
@@ -21,4 +20,4 @@ return {
       }
     )
   end
-}
+end

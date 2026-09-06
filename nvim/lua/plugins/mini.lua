@@ -1,7 +1,7 @@
-return {
-  {
-    "echasnovski/mini.surround",
-    opts = {
+return function()
+  -- echasnovski/mini.surround
+  do
+    local opts = {
      custom_surroundings = nil,
       highlight_duration = 500,
       mappings = {
@@ -20,10 +20,7 @@ return {
       respect_selection_type = false,
       search_method = "cover",
       silent = false,
-    },
-  },
-  {
-    'echasnovski/mini.nvim',
-    version = '*'
-  },
-}
+    }
+    require("mini.surround").setup(opts or {})
+  end
+end

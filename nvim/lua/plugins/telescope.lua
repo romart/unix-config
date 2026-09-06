@@ -1,22 +1,6 @@
-return {
-
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.8",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
-      },
-      {
-        "nvim-telescope/telescope-ui-select.nvim"
-      },
-      {
-        "j-hui/fidget.nvim"
-      }
-    },
-    config = function()
+return function()
+  -- nvim-telescope/telescope.nvim
+  do
       local telescope = require("telescope")
 
       telescope.load_extension("fzf")
@@ -124,6 +108,5 @@ return {
         { "<leader>gs", function() vmode_wrapper(builtin.grep_string, "search") end,          desc = "Grep string (udnder cursor)", mode = "v" },
         { "<leader>ws", function() vmode_wrapper(builtin.lsp_workspace_symbols, "query") end, desc = "Workspace Symbols",           mode = "v" },
       }
-    end
-  },
-}
+  end
+end

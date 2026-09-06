@@ -1,8 +1,7 @@
-return {
-  {
-    'akinsho/toggleterm.nvim',
-    opts = {},
-    config = function()
+return function()
+  -- akinsho/toggleterm.nvim
+  do
+    local opts = {}
       local tgl = require("toggleterm")
       tgl.setup {
         direction = "float",
@@ -31,16 +30,10 @@ return {
         { "<space>c", function() telutil.send_selection_to_term("visual_lines", themes.get_cursor {}) end,     desc = "Send selected lines into selected terminal",    mode = "x" },
         { "<space>c", function() telutil.send_selection_to_term("visual_selection", themes.get_cursor {}) end, desc = "Send current selection into selected terminal", mode = "v" },
       })
-    end
-  },
-  {
-    "ryanmsnyder/toggleterm-manager.nvim",
-    dependencies = {
-      "akinsho/toggleterm.nvim",
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim", -- only needed because it's a dependency of telescope
-    },
-    config = function()
+  end
+
+  -- ryanmsnyder/toggleterm-manager.nvim
+  do
       local toggleterm_manager = require("toggleterm-manager")
       local actions = toggleterm_manager.actions
 
@@ -60,6 +53,5 @@ return {
           },
         },
       }
-    end,
-  }
-}
+  end
+end

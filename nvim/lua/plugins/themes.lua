@@ -1,43 +1,19 @@
-return {
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      -- load the colorscheme here
+return function()
+  -- folke/tokyonight.nvim
+  do
       vim.cmd([[colorscheme tokyonight]])
-    end,
-  },
+  end
 
-  {
-    "blazkowolf/gruber-darker.nvim",
-    opts = {
+  -- blazkowolf/gruber-darker.nvim
+  do
+    local opts = {
       bold = false,
-    },
-  },
-  {
-    "zenbones-theme/zenbones.nvim",
-    dependencies = "rktjmp/lush.nvim",
-    priority = 1000,
-  },
-  { "ellisonleao/gruvbox.nvim" },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-  },
-  {
-    "tjdevries/colorbuddy.nvim",
-  },
-  {
-    "gmr458/cold.nvim",
-  },
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-  },
-  {
-    "vague2k/vague.nvim",
-    config = function()
+    }
+    require("gruber-darker").setup(opts or {})
+  end
+
+  -- vague2k/vague.nvim
+  do
       require("vague").setup({
         -- optional configuration here
         -- transparent = true,
@@ -80,12 +56,5 @@ return {
           -- -- type = "#dcaed7",
         },
       })
-    end,
-  },
-  {
-    "jnurmine/Zenburn",
-  },
-  {
-    "RRethy/base16-nvim",
-  },
-}
+  end
+end

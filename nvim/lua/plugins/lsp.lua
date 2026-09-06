@@ -1,16 +1,13 @@
-return {
-
-  {
-    "williamboman/mason.nvim",
-    config = function()
+return function()
+  -- williamboman/mason.nvim
+  do
       require("mason").setup({
         PATH = "prepend",
       })
-    end
-  },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    config = function()
+  end
+
+  -- williamboman/mason-lspconfig.nvim
+  do
       require("mason-lspconfig").setup({
         ensure_installed = {
           "bashls",
@@ -30,11 +27,10 @@ return {
           -- "cl-lsp"
         },
       })
-    end
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
+  end
+
+  -- neovim/nvim-lspconfig
+  do
       local lspconfig = require("lspconfig")
       local configs = require("lspconfig.configs")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -225,6 +221,5 @@ return {
         { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration", mode = "n" },
         { "gC", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" } },
       }
-    end
-  },
-}
+  end
+end

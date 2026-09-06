@@ -1,7 +1,6 @@
-return {
-  "folke/flash.nvim",
-  event = "VeryLazy",
-  config = function()
+return function()
+  -- folke/flash.nvim
+  do
     local flash = require("flash")
     local wk = require("which-key")
     flash.setup {}
@@ -17,4 +16,4 @@ return {
       }
     )
   end
-}
+end

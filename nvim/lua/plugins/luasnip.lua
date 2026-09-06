@@ -1,12 +1,6 @@
-return {
-  "L3MON4D3/LuaSnip",
-  build = "make install_jsregexp",
-  dependencies = {
-    "saadparwaiz1/cmp_luasnip",
-    "rafamadriz/friendly-snippets",
-    "onsails/lspkind.nvim",
-  },
-  config = function()
+return function()
+  -- L3MON4D3/LuaSnip
+  do
     local luasnip = require("luasnip")
     local wk = require("which-key")
 
@@ -33,4 +27,4 @@ return {
       },
     }
   end
-}
+end

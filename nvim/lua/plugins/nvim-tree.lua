@@ -1,12 +1,6 @@
-return {
-  'nvim-tree/nvim-tree.lua',
-
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-    opts = {}
-  },
-
-  config = function()
+return function()
+  -- nvim-tree/nvim-tree.lua
+  do
     require('nvim-tree').setup({
       filters = { dotfiles = false, git_ignored = false },
       auto_reload_on_write = true,
@@ -48,4 +42,4 @@ return {
       { "<C-n>", ":NvimTreeToggle<CR>", desc = "Tree Toggle", mode = { "i", "n" } },
     }
   end
-}
+end

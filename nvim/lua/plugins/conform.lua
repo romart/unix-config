@@ -1,7 +1,6 @@
-return {
-
-  "stevearc/conform.nvim",
-  config = function()
+return function()
+  -- stevearc/conform.nvim
+  do
     local conform = require("conform")
 
     conform.setup({
@@ -38,6 +37,5 @@ return {
         }
       end,
     })
-
   end
-}
+end

@@ -1,7 +1,9 @@
-return {
-  "j-hui/fidget.nvim",
-  opts = {
-    -- options
-  },
-  config = true
-}
+return function()
+  -- j-hui/fidget.nvim
+  do
+    local opts = {
+      -- options
+    }
+    require("fidget").setup(opts or {})
+  end
+end

@@ -1,9 +1,6 @@
-return {
-
-  "nvim-lualine/lualine.nvim",
-
-  dependencies = { "echasnovski/mini.icons" },
-  config = function()
+return function()
+  -- nvim-lualine/lualine.nvim
+  do
     sk = require("screenkey")
     require("lualine").setup({
       options = {
@@ -56,4 +53,4 @@ return {
       },
     })
   end
-}
+end

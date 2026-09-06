@@ -1,6 +1,6 @@
-return {
-  "Wansmer/treesj",
-  config = function ()
+return function()
+  -- Wansmer/treesj
+  do
     require("treesj").setup({})
   end
-}
+end

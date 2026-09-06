@@ -1,7 +1,6 @@
-return {
-  "jackMort/ChatGPT.nvim",
-  event = "VeryLazy",
-  config = function()
+return function()
+  -- jackMort/ChatGPT.nvim
+  do
     local gpt = require("chatgpt")
     local wk = require("which-key")
     -- Do not configure ChatGPT if key is not set
@@ -34,12 +33,5 @@ return {
         { "<C-g>l", "<cmd>ChatGPTRun code_readability_analysis<CR>", desc = "Code Readability Analysis", mode = { "n", "v" } }
       })
     end
-  end,
-
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    "nvim-lua/plenary.nvim",
-    "folke/trouble.nvim", -- optional
-    "nvim-telescope/telescope.nvim"
-  }
-}
+  end
+end

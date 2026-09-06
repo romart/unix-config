@@ -1,9 +1,6 @@
-return {
-  "NStefan002/screenkey.nvim",
-  lazy = false,
-  version = "*", -- or branch = "main", to use the latest commit
-
-  config = function()
+return function()
+  -- NStefan002/screenkey.nvim
+  do
     require("screenkey").setup({
       disable = {
         buftypes = { "terminal" },
@@ -11,4 +8,4 @@ return {
       group_mappings = true
     })
   end
-}
+end

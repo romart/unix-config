@@ -1,7 +1,6 @@
-return {
-  {
-    "mfussenegger/nvim-dap",
-    config = function()
+return function()
+  -- mfussenegger/nvim-dap
+  do
       local dap = require("dap")
       local utils = require('utils')
 
@@ -140,15 +139,10 @@ return {
           pythonPath = utils.get_python_path()
         },
       }
-    end
-  },
-  {
-    "rcarriga/nvim-dap-ui",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio"
-    },
-    config = function()
+  end
+
+  -- rcarriga/nvim-dap-ui
+  do
       local dap, dapui = require("dap"), require("dapui")
 
       dapui.setup {
@@ -209,6 +203,5 @@ return {
           { "<leader>P", dap.pause,             desc = "Pause",              mode = "n" },
         }
       )
-    end
-  },
-}
+  end
+end

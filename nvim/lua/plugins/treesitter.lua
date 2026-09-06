@@ -1,52 +1,23 @@
-return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    local treesitter = require("nvim-treesitter.configs")
-    treesitter.setup {
-      ensure_installed = {
-        "nix",
-        "vimdoc",
-        "c",
-        "cpp",
-        "commonlisp",
-        "java",
-        "kotlin",
-        "blueprint",
-        "bash",
-        "lua",
-        "python",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "haskell",
-        "sql",
-        "scheme",
-        "markdown",
-        "latex",
-        "vim",
-        "toml",
-        "yaml"
-      },
-      highlight = {
-        enable = true,
-      },
-      indent = { enable = true },
-      modules = {},
-      sync_install = true,
-      auto_install = true,
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<CR>",
-          -- scope_incremental = "<CR>",
-          scope_incremental = false,
-          node_incremental = "<TAB>",
-          node_decremental = "<S-TAB>",
-        },
-      },
-    }
-  end
-}
+return function()
+  -- nvim-treesitter/nvim-treesitter
+  local treesitter = require("nvim-treesitter")
+  local languages = {
+    "nix", "vimdoc", "c", "cpp", "commonlisp", "java", "kotlin",
+    "blueprint", "bash", "lua", "python", "html", "css", "javascript",
+    "typescript", "haskell", "sql", "scheme", "markdown", "latex",
+    "vim", "toml", "yaml",
+  }
+
+  treesitter.setup({
+    install_dir = vim.fn.stdpath("data") .. "/site",
+  })
+  treesitter.install(languages)
+
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function(args)
+      pcall(vim.treesitter.start, args.buf)
+      vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
+  })
+end
